@@ -1,0 +1,28 @@
+{
+  "name": "cse340-course-repo",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "New course files",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "module",
+    "url": "git+https://github.com/ThomasVanDoof/cse340-course-repo.git"
+  },
+  "author": "Thomas Barney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasVanDoof/cse340-course-repo/issues"
+  },
+  "homepage": "https://github.com/ThomasVanDoof/cse340-course-repo#readme",
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
