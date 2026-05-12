@@ -12,6 +12,10 @@ nav {
 }
 p {
     color: var(--text-color);
+    background-color: var(--secondary-color);
+    border: 2px solid var(--secondary-color-but-transparent);
+    padding: 1rem;
+    margin: 1rem 0;
 }
 
 
@@ -50,6 +54,14 @@ nav a:hover {
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
 }
+
+h2, h3, h4, h5, h6 {
+    background-color: var(--secondary-color);
+    border: 2px solid var(--secondary-color-but-transparent);
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
 
 a {
     color: var(--text-color);
