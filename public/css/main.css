@@ -1,160 +1,112 @@
 :root {
-      --background-color: #f0f0f0;
-      --text-color: #000000;
-      --primary-color: #003366;
-    }
+    --text-color: #ffffff;
+    --primary-color: #000000;
+    --secondary-color: #ea8716;
+    --secondary-color-but-transparent: rgba(234, 135, 22, 0.5);
+}
 
-h2, h3, h4, h5, h6 {
-      color: var(--primary-color);
-      font-family: 'Mozilla Headline', sans-serif;
-    }
-h1 {
-      color: var(--background-color);
-      font-family: 'Mozilla Headline', sans-serif;
-      text-align: center;
-    }
+nav {
+    background-color: var(--primary-color);
+    padding: 10px;
+    text-align: left;
+}
+p {
+    color: var(--text-color);
+}
+
+
 body {
-      font-family: 'Mozilla Text', sans-serif;
-      margin: 0;
-    }
-
-    header, footer {
-      background: var(--primary-color);
-      color: var(--background-color);
-      padding: 1rem;
-      text-align: center;
-    }
-
-    nav {
-      margin-top: 0.5rem;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    nav a {
-      color: var(--background-color);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    main {
-      padding: 1rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-.hero img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-}
-.hero-cta {
-  margin-top: 0.75rem;
-  text-align: center;
-}
-.cta {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  background: var(--primary-color);
-  color: #fff;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
+    background-color: var(--background-color);
 }
 
-#info-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-#events {
-  flex: 1 1 420px;
-  min-width: 260px;
-}
-#weather {
-  flex: 0 1 240px;
-  min-width: 200px;
-}
-#weather-widget {
-  background: #fff;
-  padding: 0.75rem;
-  border-radius: 6px;
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: left;
+    align-items: center;
 }
 
-.spotlight-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+nav li {
+    display: inline;
 }
-.spotlight {
-  background: #fff;
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 0.5em 1em;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+
+#menu-toggle {
+  display: none;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: var(--primary-color);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+  }
+  nav ul.open {
+    display: flex;
+  }
+  #menu-toggle {
+    display: block;
+  }
+}
+
+
+nav a.active {
+  color: var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+
+.course {
+  background: var(--secondary-color-but-transparent);
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
-.spotlight img {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-#spotlights {
-  margin-top: 1.5rem;
-}
-
-    .view-toggle {
-      margin-bottom: 1rem;
-      text-align: right;
-    }
-
-    .directory.grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-
-    .directory.list {
-      display: block;
-    }
-
-    .card {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 1rem;
-      background: var(--background-color);
-    }
-
-    .directory.list .card {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem;
-    }
-
-    footer {
-      margin-top: 2rem;
-    }
-
-    footer p {
-      margin: 0.3rem 0;
-    }
-
-    a {
-      color: var(--text-color);
-      font-family: 'Mozilla Text', sans-serif;
-    }
