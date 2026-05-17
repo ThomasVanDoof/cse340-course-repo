@@ -38,4 +38,49 @@ VALUES
 	(3, 'Youth Mentorship Kickoff', 'Recruiting mentors for local youth development program', '777 Future Leaders Ct', TO_DATE('06-03-2026', 'mm/dd/yyyy')),
 	(3, 'Disaster Relief Drive', 'Collecting emergency supplies and organizing distribution', '888 Community Center', TO_DATE('06-06-2026', 'mm/dd/yyyy')),
 	(3, 'Job Training Workshop', 'Resume building and interview preparation sessions', '999 Career Path Ave', TO_DATE('06-10-2026', 'mm/dd/yyyy'));
-	
+
+CREATE TABLE categories (
+    category_id SERIAL PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE project_categories (
+    project_id  INT NOT NULL REFERENCES service_projects(project_id),
+    category_id INT NOT NULL REFERENCES categories(category_id),
+    PRIMARY KEY (project_id, category_id)
+);
+
+INSERT INTO categories (name)
+VALUES
+    ('Construction & Renovation'),
+    ('Environment & Sustainability'),
+    ('Community Outreach'),
+    ('Education & Youth'),
+    ('Food & Nutrition');
+
+INSERT INTO project_categories (project_id, category_id) VALUES
+    (1, 1),  -- Jonnies Shop, Construction & Renovation
+    (2, 1),  -- Freds Pizza, Construction & Renovation
+    (3, 3),  -- Community Library, Community Outreach
+    (3, 4),  -- Community Library, Education & Youth
+    (4, 2),  -- Park Cleanup, Environment & Sustainability
+    (5, 4),  -- School Supply, Education & Youth
+    (5, 3),  -- School Supply, Community Outreach
+
+    (6, 2),  -- Urban Garden Setup, Environment & Sustainability
+    (6, 5),  -- Urban Garden Setup, Food & Nutrition
+    (7, 5),  -- Farmers Market, Food & Nutrition
+    (7, 3),  -- Farmers Market, Community Outreach
+    (8, 4),  -- School Garden, Education & Youth
+    (8, 2),  -- School Garden, Environment & Sustainability
+    (9, 2),  -- Composting Workshop, Environment & Sustainability
+    (10, 2), -- Seed Bank, Environment & Sustainability
+    (10, 5), -- Seed Bank, Food & Nutrition
+
+    (11, 3), -- Homeless Outreach, Community Outreach
+    (12, 3), -- Senior Center, Community Outreach
+    (13, 4), -- Youth Mentorship, Education & Youth
+    (13, 3), -- Youth Mentorship, Community Outreach
+    (14, 3), -- Disaster Relief, Community Outreach
+    (15, 4), -- Job Training, Education & Youth
+    (15, 3); -- Job Training, Community Outreach
