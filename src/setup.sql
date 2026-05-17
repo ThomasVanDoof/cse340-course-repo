@@ -19,8 +19,8 @@ CREATE TABLE service_projects (
 	name VARCHAR(150) NOT NULL,
 	description TEXT NOT NULL,
 	location VARCHAR(150) NOT NULL,
-	date DATE() NOT NULL
-)
+	date DATE NOT NULL
+);
 INSERT INTO service_projects (organization_id, name, description, location, date)
 VALUES
 	(1, 'Jonnies Shop', 'Workshop renovation and equipment updates', '123 N 321 E road', TO_DATE('05-21-2026', 'mm/dd/yyyy')),
@@ -37,5 +37,5 @@ VALUES
 	(3, 'Senior Center Activity Program', 'Organizing recreational activities for elderly residents', '666 Golden Years Dr', TO_DATE('05-29-2026', 'mm/dd/yyyy')),
 	(3, 'Youth Mentorship Kickoff', 'Recruiting mentors for local youth development program', '777 Future Leaders Ct', TO_DATE('06-03-2026', 'mm/dd/yyyy')),
 	(3, 'Disaster Relief Drive', 'Collecting emergency supplies and organizing distribution', '888 Community Center', TO_DATE('06-06-2026', 'mm/dd/yyyy')),
-	(3, 'Job Training Workshop', 'Resume building and interview preparation sessions', '999 Career Path Ave', TO_DATE('06-10-2026', 'mm/dd/yyyy'))
+	(3, 'Job Training Workshop', 'Resume building and interview preparation sessions', '999 Career Path Ave', TO_DATE('06-10-2026', 'mm/dd/yyyy'));
 	
