@@ -2,9 +2,8 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
-import { getAllOrganizations } from './src/models/organizations.js';
-import { getAllProjects } from './src/models/projects.js';
-import { getAllCategories } from './src/models/categories.js';
+import router from './src/routes.js';
+import { handleError } from './src/controllers/errors.js';
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
@@ -44,31 +43,8 @@ app.get('/test-error', (req, res, next) => {
     next(err);
 });
 
-/**
- * Routes
- */
-app.get('/', async (req, res) => {
-    const title = 'Home';
-    res.render('home', { title });
-});
-
-app.get('/organizations', async (req, res) => {
-    const organizations = await getAllOrganizations();
-    const title = 'Our Partner Organizations';
-    res.render('organizations', { title, organizations });
-});
-
-app.get('/projects', async (req, res) => {
-  const projects = await getAllProjects();
-    const title = 'Service Projects';
-    res.render('projects', { title, projects });
-});
-
-app.get('/categories', async (req, res) => {
-  const categories = await getAllCategories();
-    const title = 'Categories';
-    res.render('categories', { title, categories });
-});
+// Use the routes
+app.use(router);
 
 // Catch-all route for 404 errors - MUST be after all other routes
 app.use((req, res, next) => {
@@ -78,25 +54,7 @@ app.use((req, res, next) => {
 });
 
 // Global error handler - MUST be last
-app.use((err, req, res, next) => {
-    // Log error details for debugging
-    console.error('Error occurred:', err.message);
-    console.error('Stack trace:', err.stack);
-    
-    // Determine status and template
-    const status = err.status || 500;
-    const template = status === 404 ? '404' : '500';
-    
-    // Prepare data for the template
-    const context = {
-        title: status === 404 ? 'Page Not Found' : 'Server Error',
-        error: err.message,
-        stack: err.stack
-    };
-    
-    // Render the appropriate error template
-    res.status(status).render(`errors/${template}`, context);
-});
+app.use(handleError);
 
 app.listen(PORT, async () => {
   try {
