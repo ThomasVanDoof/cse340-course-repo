@@ -1,0 +1,14 @@
+
+<%- include('partials/header') %>
+    <main>
+        <h1><%= title %></h1>
+        <% if (project) { %>
+            <p><strong>Description:</strong> <%= project.description %></p>
+            <p><strong>Date:</strong> <%= project.date %></p>
+            <p><strong>Location:</strong> <%= project.location %></p>
+            <p><strong>Organization:</strong> <a href="/organizations/<%= project.organization_id %>"><%= project.organization_name %></a></p>
+        <% } else { %>
+            <p>Project not found.</p>
+        <% } %>
+    </main>
+<%- include('partials/footer') %>

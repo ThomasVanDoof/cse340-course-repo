@@ -3,23 +3,10 @@
     <main>
         <h1><%= title %></h1>
         <p>Upcoming Projects:</p>
-        <% 
-            const organizations = {
-                1: 'BrightFuture Builders',
-                2: 'GreenHarvest Growers',
-                3: 'UnityServe Volunteers'
-            };
-        %>
         <ul>
             <% projects.forEach(project => { %>
                 <li>
-                    <strong><%= project.name %></strong> - <%= organizations[project.organization_id] %>
-                    <br>
-                    Description: <%= project.description %>
-                    <br>
-                    Location: <%= project.location %>
-                    <br>
-                    Date: <%= project.date %>
+                    <strong><a href="/project/<%= project.project_id %>"><%= project.title %></a></strong> - <a href="/organizations/<%= project.organization_id %>"><%= project.organization_name %></a>
                 </li>
             <% }); %>
         </ul>
