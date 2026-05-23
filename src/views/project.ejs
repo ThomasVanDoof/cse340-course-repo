@@ -7,6 +7,14 @@
             <p><strong>Date:</strong> <%= project.date %></p>
             <p><strong>Location:</strong> <%= project.location %></p>
             <p><strong>Organization:</strong> <a href="/organizations/<%= project.organization_id %>"><%= project.organization_name %></a></p>
+            <% if (categories && categories.length > 0) { %>
+                <p><strong>Categories:</strong>
+                    <% categories.forEach((category, index) => { %>
+                        <% if (index > 0) { %> | <% } %>
+                        <a href="/category/<%= category.category_id %>"><%= category.name %></a>
+                    <% }); %>
+                </p>
+            <% } %>
         <% } else { %>
             <p>Project not found.</p>
         <% } %>

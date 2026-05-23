@@ -1,5 +1,6 @@
 // Import any needed model functions
 import { getUpcomingProjects, getProjectDetails } from '../models/projects.js';
+import { getCategoriesForProject } from '../models/categories.js';
 
 // Define constants
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
@@ -16,8 +17,13 @@ const showProjectDetailsPage = async (req, res) => {
     const { id } = req.params;
     const project = await getProjectDetails(id);
     const title = project ? project.title : 'Project Not Found';
+    
+    let categories = [];
+    if (project) {
+        categories = await getCategoriesForProject(id);
+    }
 
-    res.render('project', { title, project });
+    res.render('project', { title, project, categories });
 };
 
 // Export any controller functions
