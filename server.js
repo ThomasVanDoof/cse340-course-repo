@@ -14,6 +14,10 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 
