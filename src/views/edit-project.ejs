@@ -2,7 +2,7 @@
 <main>
     <h1><%= title %></h1>
 
-    <form action="/new-project" method="POST">
+    <form action="/edit-project/<%= projectDetails.project_id %>" method="POST">
         <div class="form-group">
             <label for="title">Project Title</label>
             <input
@@ -11,6 +11,7 @@
                 name="title"
                 maxlength="200"
                 required
+                value="<%= projectDetails.title %>"
             />
         </div>
 
@@ -21,7 +22,7 @@
                 name="description"
                 maxlength="1000"
                 required
-            ></textarea>
+            ><%= projectDetails.description %></textarea>
         </div>
 
         <div class="form-group">
@@ -32,6 +33,7 @@
                 name="location"
                 maxlength="200"
                 required
+                value="<%= projectDetails.location %>"
             />
         </div>
 
@@ -42,6 +44,7 @@
                 id="date"
                 name="date"
                 required
+                value="<%= projectDetails.date instanceof Date ? projectDetails.date.toISOString().split('T')[0] : projectDetails.date %>"
             />
         </div>
 
@@ -54,12 +57,17 @@
             >
                 <option value="">Select an organization</option>
                 <% organizations.forEach(org => { %>
-                    <option value="<%= org.organization_id %>"><%= org.name %></option>
+                    <option 
+                        value="<%= org.organization_id %>"
+                        <%= org.organization_id === projectDetails.organization_id ? 'selected' : '' %>
+                    >
+                        <%= org.name %>
+                    </option>
                 <% }); %>
             </select>
         </div>
 
-        <button type="submit">Create Project</button>
+        <button type="submit">Update Project</button>
     </form>
 
 </main>
