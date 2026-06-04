@@ -5,13 +5,6 @@ CREATE TABLE organizations (
     contact_email   VARCHAR(255) NOT NULL,
     logo_filename   VARCHAR(255) NOT NULL
 );
-INSERT INTO organizations (name, description, contact_email, logo_filename)
-VALUES
-    ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
-    ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
-    ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
-
-SELECT * FROM organizations;
 
 CREATE TABLE service_projects (
 	project_id SERIAL PRIMARY KEY,
@@ -21,6 +14,39 @@ CREATE TABLE service_projects (
 	location VARCHAR(150) NOT NULL,
 	date DATE NOT NULL
 );
+
+CREATE TABLE categories (
+    category_id SERIAL PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE project_categories (
+    project_id  INT NOT NULL REFERENCES service_projects(project_id),
+    category_id INT NOT NULL REFERENCES categories(category_id),
+    PRIMARY KEY (project_id, category_id)
+);
+
+CREATE TABLE roles (
+	role_id SERIAL PRIMARY KEY,
+	role_name VARCHAR(50) UNIQUE NOT NULL,
+	role_description TEXT
+);
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO organizations (name, description, contact_email, logo_filename)
+VALUES
+    ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
+    ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
+    ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
+
 INSERT INTO service_projects (organization_id, name, description, location, date)
 VALUES
 	(1, 'Jonnies Shop', 'Workshop renovation and equipment updates', '123 N 321 E road', TO_DATE('05-21-2026', 'mm/dd/yyyy')),
@@ -39,16 +65,9 @@ VALUES
 	(3, 'Disaster Relief Drive', 'Collecting emergency supplies and organizing distribution', '888 Community Center', TO_DATE('06-06-2026', 'mm/dd/yyyy')),
 	(3, 'Job Training Workshop', 'Resume building and interview preparation sessions', '999 Career Path Ave', TO_DATE('06-10-2026', 'mm/dd/yyyy'));
 
-CREATE TABLE categories (
-    category_id SERIAL PRIMARY KEY,
-    name        VARCHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE project_categories (
-    project_id  INT NOT NULL REFERENCES service_projects(project_id),
-    category_id INT NOT NULL REFERENCES categories(category_id),
-    PRIMARY KEY (project_id, category_id)
-);
+INSERT INTO roles (role_name, role_description) VALUES 
+    ('user', 'Standard user with basic access'),
+    ('admin', 'Administrator with full system access');
 
 INSERT INTO categories (name)
 VALUES
@@ -84,3 +103,10 @@ INSERT INTO project_categories (project_id, category_id) VALUES
     (14, 3), -- Disaster Relief, Community Outreach
     (15, 4), -- Job Training, Education & Youth
     (15, 3); -- Job Training, Community Outreach
+
+SELECT * FROM organizations;
+SELECT * FROM service_projects;
+SELECT * FROM categories;
+SELECT * FROM project_categories;
+SELECT * FROM roles;
+SELECT * FROM users;
