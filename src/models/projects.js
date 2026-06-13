@@ -114,4 +114,83 @@ const updateProject = async (projectId, name, description, location, date, organ
   return result.rows[0].project_id;
 };
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject }
+const addVolunteer = async (userId, projectId) => {
+  const query = `
+    INSERT INTO volunteer_signups (user_id, project_id)
+    VALUES ($1, $2)
+    RETURNING signup_id;
+  `;
+
+  const queryParams = [userId, projectId];
+  const result = await db.query(query, queryParams);
+
+  if (result.rows.length === 0) {
+    throw new Error('Failed to add volunteer');
+  }
+
+  if (process.env.ENABLE_SQL_LOGGING === 'true') {
+    console.log('User', userId, 'volunteered for project', projectId);
+  }
+
+  return result.rows[0].signup_id;
+};
+
+const removeVolunteer = async (userId, projectId) => {
+  const query = `
+    DELETE FROM volunteer_signups
+    WHERE user_id = $1 AND project_id = $2
+    RETURNING signup_id;
+  `;
+
+  const queryParams = [userId, projectId];
+  const result = await db.query(query, queryParams);
+
+  if (result.rows.length === 0) {
+    throw new Error('Volunteer signup not found');
+  }
+
+  if (process.env.ENABLE_SQL_LOGGING === 'true') {
+    console.log('User', userId, 'removed volunteering for project', projectId);
+  }
+
+  return result.rows[0].signup_id;
+};
+
+const getVolunteerProjects = async (userId) => {
+  const query = `
+    SELECT
+      p.project_id,
+      p.name AS title,
+      p.description,
+      p.date,
+      p.location,
+      p.organization_id,
+      o.name AS organization_name,
+      v.signup_date
+    FROM volunteer_signups v
+    JOIN service_projects p ON v.project_id = p.project_id
+    JOIN organizations o ON p.organization_id = o.organization_id
+    WHERE v.user_id = $1
+    ORDER BY p.date ASC;
+  `;
+
+  const queryParams = [userId];
+  const result = await db.query(query, queryParams);
+
+  return result.rows;
+};
+
+const isUserVolunteer = async (userId, projectId) => {
+  const query = `
+    SELECT signup_id
+    FROM volunteer_signups
+    WHERE user_id = $1 AND project_id = $2;
+  `;
+
+  const queryParams = [userId, projectId];
+  const result = await db.query(query, queryParams);
+
+  return result.rows.length > 0;
+};
+
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject, addVolunteer, removeVolunteer, getVolunteerProjects, isUserVolunteer }

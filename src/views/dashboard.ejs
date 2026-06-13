@@ -7,6 +7,41 @@
     <p>Name: <%= name %></p>
     <p>Username: <%= email %></p>
 
+    <!-- Volunteer Projects Section -->
+    <section class="volunteer-projects">
+        <h3>My Volunteer Projects</h3>
+        <% if (volunteerProjects && volunteerProjects.length > 0) { %>
+            <table border="1" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th>Organization</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% volunteerProjects.forEach((project) => { %>
+                        <tr>
+                            <td><a href="/project/<%= project.project_id %>"><%= project.title %></a></td>
+                            <td><a href="/organizations/<%= project.organization_id %>"><%= project.organization_name %></a></td>
+                            <td><%= project.date %></td>
+                            <td><%= project.location %></td>
+                            <td>
+                                <form method="POST" action="/remove-volunteer/<%= project.project_id %>" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>You are not currently volunteering for any projects. <a href="/projects">Browse projects</a> to volunteer!</p>
+        <% } %>
+    </section>
+
     <% if (user && user.role_name === 'admin') { %>
         <nav>
             <h3>Admin Links</h3>

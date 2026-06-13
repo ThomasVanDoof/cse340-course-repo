@@ -1,5 +1,5 @@
 // Import any needed model functions
-import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
+import { getUpcomingProjects, getProjectDetails, createProject, updateProject, addVolunteer, removeVolunteer, isUserVolunteer } from '../models/projects.js';
 import { getCategoriesForProject } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
@@ -43,11 +43,16 @@ const showProjectDetailsPage = async (req, res) => {
     const title = project ? project.title : 'Project Not Found';
     
     let categories = [];
+    let isVolunteer = false;
     if (project) {
         categories = await getCategoriesForProject(id);
+        // Check if logged-in user is a volunteer for this project
+        if (req.session && req.session.user) {
+            isVolunteer = await isUserVolunteer(req.session.user.user_id, id);
+        }
     }
 
-    res.render('project', { title, project, categories });
+    res.render('project', { title, project, categories, isVolunteer });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -125,5 +130,44 @@ const processEditProjectForm = async (req, res) => {
     }
 };
 
+const addVolunteerHandler = async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const userId = req.session.user.user_id;
+
+        // Check if user is already a volunteer
+        const alreadyVolunteer = await isUserVolunteer(userId, projectId);
+        if (alreadyVolunteer) {
+            req.flash('error', 'You are already volunteering for this project.');
+            return res.redirect(`/project/${projectId}`);
+        }
+
+        // Add user as volunteer
+        await addVolunteer(userId, projectId);
+        req.flash('success', 'You have successfully volunteered for this project!');
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Error adding volunteer:', error);
+        req.flash('error', 'There was an error volunteering for this project.');
+        res.redirect(`/project/${req.params.projectId}`);
+    }
+};
+
+const removeVolunteerHandler = async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const userId = req.session.user.user_id;
+
+        // Remove user as volunteer
+        await removeVolunteer(userId, projectId);
+        req.flash('success', 'You have been removed from this project.');
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Error removing volunteer:', error);
+        req.flash('error', 'There was an error removing you from this project.');
+        res.redirect(`/project/${req.params.projectId}`);
+    }
+};
+
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm };
+export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm, addVolunteerHandler, removeVolunteerHandler };

@@ -41,6 +41,13 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE volunteer_signups (
+    signup_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id),
+    project_id INTEGER REFERENCES service_projects(project_id),
+    signup_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO organizations (name, description, contact_email, logo_filename)
 VALUES
     ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
@@ -110,3 +117,4 @@ SELECT * FROM categories;
 SELECT * FROM project_categories;
 SELECT * FROM roles;
 SELECT * FROM users;
+SELECT * FROM volunteer_signups;
